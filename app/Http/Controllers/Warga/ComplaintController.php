@@ -49,12 +49,17 @@ class ComplaintController extends Controller
             $photoPath = $request->file('photo')->store('complaints', 'public');
         }
 
-        auth()->user()->complaints()->create([
+        $complaint = auth()->user()->complaints()->create([
             'title'       => $validated['title'],
             'description' => $validated['description'],
             'photo'       => $photoPath,
             'status'      => 'pending',
         ]);
+
+        $admin = \App\Models\User::where('role', 'admin')->first();
+        if ($admin) {
+            \Illuminate\Support\Facades\Mail::to($admin->email)->send(new \App\Mail\NewComplaintMail($complaint));
+        }
 
         return redirect()->route('warga.pengaduan.index')
             ->with('success', 'Pengaduan berhasil dikirim. Pengurus RT akan menindaklanjuti laporan Anda.');

@@ -126,4 +126,44 @@ class WargaController extends Controller
         return redirect()->route('admin.warga.index')
             ->with('success', "Akun warga {$warga->name} berhasil {$status}.");
     }
+
+    /**
+     * Export warga data to CSV.
+     */
+    public function export()
+    {
+        $fileName = 'data_warga_' . date('Ymd_His') . '.csv';
+
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $callback = function() {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['No', 'NIK', 'Nama', 'Email', 'No. HP', 'Alamat', 'Status Verifikasi', 'Bergabung Pada']);
+
+            $warga = User::where('role', 'warga')->get();
+
+            foreach ($warga as $index => $w) {
+                fputcsv($file, [
+                    $index + 1,
+                    "'" . $w->nik, // Prefix with quote to prevent excel treating it as number and stripping zeros
+                    $w->name,
+                    $w->email,
+                    $w->phone ? "'" . $w->phone : '-',
+                    $w->address,
+                    $w->is_verified ? 'Terverifikasi' : 'Belum Verifikasi',
+                    $w->created_at->format('d/m/Y H:i')
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->streamDownload($callback, $fileName, $headers);
+    }
 }

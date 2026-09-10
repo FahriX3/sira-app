@@ -1,66 +1,65 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Dokumentasi Proyek: SIRA (Sistem Informasi Rukun Warga)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Proyek ini adalah sebuah sistem informasi berbasis web yang dibangun menggunakan framework **Laravel 11**. Aplikasi ini ditujukan untuk mempermudah administrasi dan interaksi di tingkat Rukun Warga (RW) atau Rukun Tetangga (RT), mencakup pengelolaan data warga, permohonan surat pengantar, layanan pengaduan, hingga pencatatan iuran.
 
-## About Laravel
+## 🛠 Teknologi yang Digunakan
+- **Framework Utama**: Laravel (v11.31)
+- **Bahasa Pemrograman**: PHP (Minimal v8.2)
+- **Package Tambahan**: 
+  - `barryvdh/laravel-dompdf` (Untuk kebutuhan cetak atau ekspor surat/laporan dalam format PDF)
+- **Frontend Assets**: Vite & Tailwind CSS (Berdasarkan keberadaan `vite.config.js` dan `tailwind.config.js`)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 👥 Aktor / Role Sistem
+Sistem ini menggunakan *Role-Based Access Control* dengan middleware khusus (`role:admin` dan `role:warga`), serta pengecekan akun yang sudah diverifikasi (`verified.account`). Terdapat 3 tingkatan akses:
+1. **Guest (Tamu)**: Pengguna yang belum login.
+2. **Admin**: Pengurus RW/RT yang memiliki akses penuh untuk mengelola data operasional.
+3. **Warga**: Penduduk terdaftar yang sudah diverifikasi, bertindak sebagai pengguna layanan.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 📋 Daftar Fitur (Berdasarkan Role)
 
-## Learning Laravel
+### 1. Fitur Guest (Tamu)
+- **Halaman Landing**: Halaman utama informasi (Landing Page).
+- **Login & Register**: Proses autentikasi dan pendaftaran akun baru bagi warga.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 2. Fitur Admin
+Hak akses khusus untuk pengurus. Admin memiliki wewenang untuk menyetujui, mengelola, dan mengekspor berbagai data.
+- **Dashboard Admin**: Ringkasan data operasional RW/RT.
+- **Manajemen Warga** (`/admin/warga`): 
+  - Melihat daftar dan detail warga.
+  - Memverifikasi / Menyetujui akun warga yang baru mendaftar (Verification).
+  - Mengekspor data warga.
+- **Manajemen Surat Pengantar** (`/admin/surat`):
+  - Melihat daftar permohonan surat pengantar dari warga.
+  - Menerima (Approve) atau Menolak (Reject) permohonan surat.
+  - **Mencetak Surat (PDF)** untuk surat yang disetujui.
+- **Manajemen Pengaduan** (`/admin/pengaduan`):
+  - Melihat daftar keluhan / pengaduan warga.
+  - Memperbarui status pengaduan (misal: "Diproses", "Selesai").
+  - Mengekspor data pengaduan.
+- **Manajemen Iuran** (`/admin/iuran`):
+  - Membuat tagihan iuran baru.
+  - Menandai iuran sebagai "Lunas" (Paid) atau "Belum Lunas" (Unpaid).
+  - Mengekspor data laporan iuran.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### 3. Fitur Warga
+Akses untuk warga yang akunnya sudah disetujui (verified) oleh admin.
+- **Dashboard Warga**: Ringkasan status layanan (surat, pengaduan, iuran).
+- **Layanan Surat Pengantar** (`/warga/surat`):
+  - Mengajukan permohonan surat pengantar baru.
+  - Memantau status (Riwayat) permohonan surat yang diajukan.
+- **Layanan Pengaduan** (`/warga/pengaduan`):
+  - Membuat laporan pengaduan baru terkait lingkungan atau masalah lainnya.
+  - Melihat status dan riwayat pengaduan yang pernah dibuat.
+- **Informasi Iuran** (`/warga/iuran`):
+  - Melihat daftar tagihan iuran bulanan atau khusus beserta status pembayarannya.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🗄 Struktur Database (Model Inti)
+Aplikasi ini memiliki 4 model utama yang merepresentasikan entitas bisnis dalam sistem:
+1. `User.php`: Menyimpan data autentikasi dan profil warga maupun admin (termasuk validasi dan peran).
+2. `LetterRequest.php`: Menyimpan data pengajuan surat pengantar (Siapa yang mengajukan, keperluan, dan statusnya).
+3. `Complaint.php`: Menyimpan data pengaduan warga beserta status penyelesaiannya.
+4. `Due.php`: Menyimpan data tagihan dan catatan pembayaran iuran warga.

@@ -63,4 +63,48 @@ class ComplaintController extends Controller
         return redirect()->back()
             ->with('success', 'Status pengaduan diubah menjadi: ' . $statusLabels[$request->status]);
     }
+
+    /**
+     * Export complaints data to CSV.
+     */
+    public function export()
+    {
+        $fileName = 'data_pengaduan_' . date('Ymd_His') . '.csv';
+
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $callback = function() {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['No', 'Tanggal', 'Pengirim', 'Judul', 'Deskripsi', 'Status']);
+
+            $complaints = Complaint::with('user')->get();
+
+            foreach ($complaints as $index => $c) {
+                $statusMap = [
+                    'pending'  => 'Pending',
+                    'process'  => 'Diproses',
+                    'resolved' => 'Selesai',
+                ];
+                
+                fputcsv($file, [
+                    $index + 1,
+                    $c->created_at->format('d/m/Y H:i'),
+                    $c->user->name ?? '-',
+                    $c->title,
+                    $c->description,
+                    $statusMap[$c->status] ?? $c->status
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->streamDownload($callback, $fileName, $headers);
+    }
 }

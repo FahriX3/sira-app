@@ -479,7 +479,7 @@
     <nav class="navbar" id="navbar">
         <div class="container">
             <a href="/" class="nav-brand">
-                <div class="nav-brand-icon">S</div>
+                <img src="{{ asset('logo.png') }}" alt="SIRA Logo" style="height: 36px; width: 36px; object-fit: contain; border-radius: 10px;">
                 SIRA
             </a>
             <div class="nav-links">

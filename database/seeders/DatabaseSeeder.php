@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
         // Admin (Pengurus RT)
         $admin = User::create([
             'nik'         => '3201010101010001',
-            'name'        => 'Pak RT Ahmad Sudrajat',
-            'email'       => 'admin@sira.test',
+            'name'        => 'Fahri Mandriva',
+            'email'       => 'fahrimandriva138@gmail.com',
             'phone'       => '081234567890',
             'address'     => 'Jl. Merdeka No. 1, RT 005/RW 002',
             'role'        => 'admin',

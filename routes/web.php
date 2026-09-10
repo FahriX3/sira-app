@@ -50,6 +50,7 @@ Route::prefix('admin')
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
 
         // Warga Management
+        Route::get('/warga/export', [WargaController::class, 'export'])->name('warga.export');
         Route::resource('warga', WargaController::class)->except(['show']);
         Route::patch('/warga/{warga}/verify', [WargaController::class, 'verify'])->name('warga.verify');
 
@@ -61,11 +62,13 @@ Route::prefix('admin')
         Route::get('/surat/{letter}/pdf', [LetterController::class, 'printPdf'])->name('surat.pdf');
 
         // Pengaduan Management
+        Route::get('/pengaduan/export', [AdminComplaintController::class, 'export'])->name('pengaduan.export');
         Route::get('/pengaduan', [AdminComplaintController::class, 'index'])->name('pengaduan.index');
         Route::get('/pengaduan/{complaint}', [AdminComplaintController::class, 'show'])->name('pengaduan.show');
         Route::patch('/pengaduan/{complaint}/status', [AdminComplaintController::class, 'updateStatus'])->name('pengaduan.status');
 
         // Iuran Management
+        Route::get('/iuran/export', [AdminDueController::class, 'export'])->name('iuran.export');
         Route::get('/iuran', [AdminDueController::class, 'index'])->name('iuran.index');
         Route::get('/iuran/create', [AdminDueController::class, 'create'])->name('iuran.create');
         Route::post('/iuran', [AdminDueController::class, 'store'])->name('iuran.store');

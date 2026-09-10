@@ -330,7 +330,7 @@
     <!-- Brand Side -->
     <div class="auth-brand">
         <div class="auth-brand-content">
-            <div class="brand-logo">S</div>
+            <img src="{{ asset('logo.png') }}" alt="SIRA Logo" style="width: 64px; height: 64px; object-fit: contain; margin-bottom: 24px; border-radius: 16px;">
             <h1>SIRA</h1>
             <p>Sistem Informasi & Pelaporan RT/RW untuk digitalisasi layanan warga yang transparan dan terorganisir.</p>
 

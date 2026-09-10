@@ -109,4 +109,42 @@ class DueController extends Controller
         return redirect()->back()
             ->with('success', 'Status iuran dikembalikan menjadi belum bayar.');
     }
+
+    /**
+     * Export dues data to CSV.
+     */
+    public function export()
+    {
+        $fileName = 'data_iuran_' . date('Ymd_His') . '.csv';
+
+        $headers = [
+            "Content-type"        => "text/csv",
+            "Content-Disposition" => "attachment; filename=$fileName",
+            "Pragma"              => "no-cache",
+            "Cache-Control"       => "must-revalidate, post-check=0, pre-check=0",
+            "Expires"             => "0"
+        ];
+
+        $callback = function() {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, ['No', 'Nama Warga', 'Bulan/Tahun', 'Jumlah', 'Status', 'Tanggal Bayar']);
+
+            $dues = Due::with('user')->get();
+
+            foreach ($dues as $index => $due) {
+                fputcsv($file, [
+                    $index + 1,
+                    $due->user->name ?? '-',
+                    $due->month_year,
+                    $due->amount,
+                    $due->status === 'paid' ? 'Lunas' : 'Belum Bayar',
+                    $due->payment_date ? \Carbon\Carbon::parse($due->payment_date)->format('d/m/Y H:i') : '-'
+                ]);
+            }
+
+            fclose($file);
+        };
+
+        return response()->streamDownload($callback, $fileName, $headers);
+    }
 }

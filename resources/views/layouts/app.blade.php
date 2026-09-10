@@ -9,6 +9,14 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        // Check for saved theme preference, otherwise use system preference
+        const theme = localStorage.getItem('theme') || 
+            (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        if (theme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+    </script>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -45,12 +53,49 @@
             --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
             --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
             --transition: all 0.2s ease;
+            
+            /* Theme Variables - Light (Default) */
+            --bg-body: var(--gray-50);
+            --bg-card: #ffffff;
+            --border-color: var(--gray-200);
+            --border-color-light: var(--gray-100);
+            --text-main: var(--gray-800);
+            --text-muted: var(--gray-500);
+            --text-heading: var(--gray-900);
+            --bg-hover: var(--gray-50);
+        }
+
+        /* Theme Variables - Dark */
+        [data-theme="dark"] {
+            --gray-50: #111827;
+            --gray-100: #1F2937;
+            --gray-200: #374151;
+            --gray-300: #4B5563;
+            --gray-400: #6B7280;
+            --gray-500: #9CA3AF;
+            --gray-600: #D1D5DB;
+            --gray-700: #E5E7EB;
+            --gray-800: #F3F4F6;
+            --gray-900: #F9FAFB;
+            
+            --bg-body: #0B1120;
+            --bg-card: #111827;
+            --border-color: #1F2937;
+            --border-color-light: #1F2937;
+            --text-main: #F3F4F6;
+            --text-muted: #9CA3AF;
+            --text-heading: #ffffff;
+            --bg-hover: #1F2937;
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.3);
+            --shadow: 0 1px 3px 0 rgba(0,0,0,0.5), 0 1px 2px -1px rgba(0,0,0,0.5);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.5), 0 2px 4px -2px rgba(0,0,0,0.5);
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--gray-50);
-            color: var(--gray-800);
+            background-color: var(--bg-body);
+            color: var(--text-main);
             line-height: 1.6;
             min-height: 100vh;
         }
@@ -206,8 +251,8 @@
         /* ===== TOPBAR ===== */
         .topbar {
             height: var(--topbar-height);
-            background: #fff;
-            border-bottom: 1px solid var(--gray-200);
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -226,7 +271,7 @@
         .topbar-left h2 {
             font-size: 18px;
             font-weight: 700;
-            color: var(--gray-900);
+            color: var(--text-heading);
         }
 
         .topbar-breadcrumb {
@@ -252,9 +297,9 @@
             align-items: center;
             gap: 8px;
             padding: 8px 16px;
-            background: var(--gray-100);
-            color: var(--gray-600);
-            border: 1px solid var(--gray-200);
+            background: var(--bg-hover);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
             border-radius: var(--radius-sm);
             font-size: 13px;
             font-weight: 500;
@@ -284,27 +329,27 @@
         .page-header h2 {
             font-size: 24px;
             font-weight: 700;
-            color: var(--gray-900);
+            color: var(--text-heading);
         }
 
         .page-header p {
             font-size: 14px;
-            color: var(--gray-500);
+            color: var(--text-muted);
             margin-top: 2px;
         }
 
         /* ===== CARDS ===== */
         .card {
-            background: #fff;
+            background: var(--bg-card);
             border-radius: var(--radius);
-            border: 1px solid var(--gray-200);
+            border: 1px solid var(--border-color);
             box-shadow: var(--shadow-sm);
             overflow: hidden;
         }
 
         .card-header {
             padding: 20px 24px;
-            border-bottom: 1px solid var(--gray-100);
+            border-bottom: 1px solid var(--border-color-light);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -313,14 +358,14 @@
         .card-header h3 {
             font-size: 16px;
             font-weight: 600;
-            color: var(--gray-900);
+            color: var(--text-heading);
         }
 
         .card-body { padding: 24px; }
         .card-footer {
             padding: 16px 24px;
-            border-top: 1px solid var(--gray-100);
-            background: var(--gray-50);
+            border-top: 1px solid var(--border-color-light);
+            background: var(--bg-body);
         }
 
         /* ===== STAT CARDS ===== */
@@ -332,9 +377,9 @@
         }
 
         .stat-card {
-            background: #fff;
+            background: var(--bg-card);
             border-radius: var(--radius);
-            border: 1px solid var(--gray-200);
+            border: 1px solid var(--border-color);
             padding: 24px;
             display: flex;
             align-items: flex-start;
@@ -368,14 +413,14 @@
         .stat-card-info h4 {
             font-size: 13px;
             font-weight: 500;
-            color: var(--gray-500);
+            color: var(--text-muted);
             margin-bottom: 4px;
         }
 
         .stat-card-info .stat-value {
             font-size: 28px;
             font-weight: 800;
-            color: var(--gray-900);
+            color: var(--text-heading);
             line-height: 1;
         }
 
@@ -402,16 +447,16 @@
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: var(--gray-500);
-            background: var(--gray-50);
-            border-bottom: 1px solid var(--gray-200);
+            color: var(--text-muted);
+            background: var(--bg-body);
+            border-bottom: 1px solid var(--border-color);
         }
 
         table td {
             padding: 14px 16px;
             font-size: 14px;
-            color: var(--gray-700);
-            border-bottom: 1px solid var(--gray-100);
+            color: var(--text-main);
+            border-bottom: 1px solid var(--border-color-light);
             vertical-align: middle;
         }
 
@@ -420,7 +465,7 @@
         }
 
         table tbody tr:hover {
-            background: var(--gray-50);
+            background: var(--bg-hover);
         }
 
         table tbody tr:last-child td {
@@ -514,14 +559,14 @@
         .btn-info:hover { background: #2563EB; }
 
         .btn-outline {
-            background: #fff;
-            color: var(--gray-700);
-            border-color: var(--gray-300);
+            background: transparent;
+            color: var(--text-main);
+            border-color: var(--border-color);
         }
 
         .btn-outline:hover {
-            background: var(--gray-50);
-            border-color: var(--gray-400);
+            background: var(--bg-hover);
+            border-color: var(--text-muted);
         }
 
         .btn-icon {
@@ -543,7 +588,7 @@
             display: block;
             font-size: 14px;
             font-weight: 600;
-            color: var(--gray-700);
+            color: var(--text-main);
             margin-bottom: 6px;
         }
 
@@ -552,12 +597,12 @@
         .form-textarea {
             width: 100%;
             padding: 10px 14px;
-            border: 1px solid var(--gray-300);
+            border: 1px solid var(--border-color);
             border-radius: var(--radius-sm);
             font-size: 14px;
             font-family: inherit;
-            color: var(--gray-800);
-            background: #fff;
+            color: var(--text-main);
+            background: var(--bg-card);
             transition: var(--transition);
         }
 
@@ -637,7 +682,7 @@
         .empty-state {
             text-align: center;
             padding: 48px 24px;
-            color: var(--gray-400);
+            color: var(--text-muted);
         }
 
         .empty-state i {
@@ -649,7 +694,7 @@
         .empty-state h4 {
             font-size: 16px;
             font-weight: 600;
-            color: var(--gray-500);
+            color: var(--text-main);
             margin-bottom: 4px;
         }
 
@@ -687,8 +732,8 @@
             border-radius: var(--radius-sm);
             font-size: 13px;
             font-weight: 500;
-            color: var(--gray-600);
-            border: 1px solid var(--gray-200);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
             transition: var(--transition);
         }
 
@@ -727,7 +772,7 @@
         .modal-overlay.active { display: flex; }
 
         .modal {
-            background: #fff;
+            background: var(--bg-card);
             border-radius: var(--radius);
             width: 90%;
             max-width: 480px;
@@ -737,7 +782,7 @@
 
         .modal-header {
             padding: 20px 24px;
-            border-bottom: 1px solid var(--gray-100);
+            border-bottom: 1px solid var(--border-color-light);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -760,7 +805,7 @@
         .modal-body { padding: 24px; }
         .modal-footer {
             padding: 16px 24px;
-            border-top: 1px solid var(--gray-100);
+            border-top: 1px solid var(--border-color-light);
             display: flex;
             gap: 8px;
             justify-content: flex-end;
@@ -843,7 +888,7 @@
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-brand">
-            <div class="sidebar-brand-icon">S</div>
+            <img src="{{ asset('logo.png') }}" alt="SIRA Logo" style="width: 42px; height: 42px; object-fit: contain;">
             <div class="sidebar-brand-text">
                 <h1>SIRA</h1>
                 <p>Sistem Informasi RT/RW</p>
@@ -915,6 +960,9 @@
                 </div>
             </div>
             <div class="topbar-right">
+                <button id="themeToggleBtn" class="btn-icon" style="background: transparent; color: var(--text-muted); border: none; font-size: 18px; cursor: pointer; margin-right: 8px;">
+                    <i class="fas fa-moon"></i>
+                </button>
                 <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                     @csrf
                     <button type="submit" class="btn-logout">
@@ -946,6 +994,35 @@
     </main>
 
     <script>
+        // Theme Toggle Logic
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = themeToggleBtn.querySelector('i');
+        
+        function updateThemeIcon() {
+            if (document.documentElement.getAttribute('data-theme') === 'dark') {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+        }
+        
+        // Initial icon update
+        updateThemeIcon();
+
+        themeToggleBtn.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon();
+            
+            // Dispatch event for components that need to react (like charts)
+            window.dispatchEvent(new Event('themeChanged'));
+        });
+
         function toggleSidebar() {
             document.getElementById('sidebar').classList.toggle('active');
             document.getElementById('sidebarOverlay').classList.toggle('active');

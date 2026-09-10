@@ -8,6 +8,9 @@
             <h2>Manajemen Pengaduan</h2>
             <p>Kelola laporan pengaduan dari warga</p>
         </div>
+        <a href="{{ route('admin.pengaduan.export') }}" class="btn btn-outline" style="border-color: #10b981; color: #10b981;">
+            <i class="fas fa-file-excel"></i> Export Excel
+        </a>
     </div>
 
     <!-- Filters -->

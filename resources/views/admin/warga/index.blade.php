@@ -8,9 +8,14 @@
             <h2>Data Warga</h2>
             <p>Kelola data warga RT/RW</p>
         </div>
-        <a href="{{ route('admin.warga.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Tambah Warga
-        </a>
+        <div style="display: flex; gap: 10px;">
+            <a href="{{ route('admin.warga.export') }}" class="btn btn-outline" style="border-color: #10b981; color: #10b981;">
+                <i class="fas fa-file-excel"></i> Export Excel
+            </a>
+            <a href="{{ route('admin.warga.create') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Tambah Warga
+            </a>
+        </div>
     </div>
 
     <!-- Filters -->

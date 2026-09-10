@@ -8,9 +8,14 @@
             <h2>Manajemen Iuran Bulanan</h2>
             <p>Kelola tagihan dan pembayaran iuran warga</p>
         </div>
-        <a href="{{ route('admin.iuran.create') }}" class="btn btn-primary">
-            <i class="fas fa-plus"></i> Tambah Tagihan
-        </a>
+        <div style="display: flex; gap: 10px;">
+            <a href="{{ route('admin.iuran.export') }}" class="btn btn-outline" style="border-color: #10b981; color: #10b981;">
+                <i class="fas fa-file-excel"></i> Export Excel
+            </a>
+            <a href="{{ route('admin.iuran.create') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Tambah Tagihan
+            </a>
+        </div>
     </div>
 
     <!-- Filters -->
