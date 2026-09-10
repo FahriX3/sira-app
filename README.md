@@ -63,3 +63,40 @@ Aplikasi ini memiliki 4 model utama yang merepresentasikan entitas bisnis dalam 
 2. `LetterRequest.php`: Menyimpan data pengajuan surat pengantar (Siapa yang mengajukan, keperluan, dan statusnya).
 3. `Complaint.php`: Menyimpan data pengaduan warga beserta status penyelesaiannya.
 4. `Due.php`: Menyimpan data tagihan dan catatan pembayaran iuran warga.
+
+---
+
+## 📧 Konfigurasi Fitur Email (Notifikasi Pengaduan)
+Aplikasi ini memiliki fitur notifikasi email otomatis kepada Admin ketika warga membuat pengaduan baru.
+
+Untuk mengaktifkan fitur email, Anda perlu melakukan konfigurasi SMTP pada file `.env`. Berikut adalah langkah-langkahnya:
+
+1. Copy file `.env.example` menjadi `.env` (jika belum ada).
+2. Buka file `.env` di folder utama proyek.
+3. Cari bagian konfigurasi email dan ubah nilainya sesuai dengan kredensial SMTP Anda. 
+
+Contoh konfigurasi menggunakan **Gmail SMTP**:
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=465
+MAIL_USERNAME=email_anda@gmail.com
+MAIL_PASSWORD=password_app_gmail_anda
+MAIL_ENCRYPTION=ssl
+MAIL_FROM_ADDRESS="noreply@sira-app.test"
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+*(Catatan: Jika menggunakan Gmail, Anda harus menggunakan [App Passwords](https://myaccount.google.com/apppasswords), bukan password login Gmail biasa)*
+
+Contoh menggunakan **Mailtrap** (Untuk keperluan testing):
+```env
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=username_mailtrap
+MAIL_PASSWORD=password_mailtrap
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS="hello@example.com"
+MAIL_FROM_NAME="${APP_NAME}"
+```
